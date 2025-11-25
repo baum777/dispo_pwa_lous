@@ -1,0 +1,36 @@
+{
+  "name": "Lou's Team PWA (Next.js 14)",
+  // Node 20 + npm, ideal für dein Setup
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+
+  // Codespaces: Port 3000 automatisch weiterleiten
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js Dev Server",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  // Wird einmal nach dem Erstellen ausgeführt
+  "postCreateCommand": "npm install",
+
+  // Optional, aber nice für DX
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "typescript.validate.enable": true,
+        "files.exclude": {
+          "**/.next": true,
+          "**/node_modules": true
+        }
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  }
+}
