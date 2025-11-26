@@ -8,7 +8,7 @@ Eine Progressive Web App (PWA) für das Team von Lou's Foodtruck. Die App ermög
 - Übersichtliche Darstellung aller anstehenden Schichten
 - Filterung nach Zeitraum (Standard: nächste 14 Tage)
 - Direkte Kontaktmöglichkeiten:
-  - **WhatsApp-Integration**: Direkter Chat mit Team-Mitgliedern
+  - **WhatsApp-Integration**: Öffnet einen WhatsApp-Direktnachricht-Link mit vorformuliertem Text zum Team-Mitglied
   - **E-Mail-Links**: Schneller Kontakt zu Standorten
   - **PDF-Details**: Event-Informationen direkt öffnen
 - Anzeige von Datum, Uhrzeit, Standort, Event und Team-Zusammensetzung
