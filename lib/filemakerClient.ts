@@ -1,18 +1,28 @@
+import { getDemoShifts } from './demoShifts';
+import { getFileMakerCredentials, getFmBaseUrl, isDemoMode } from './env';
 import { mapFileMakerRecordToShift } from './shiftMapper';
 import type { Shift } from './shiftTypes';
 
-const { FM_BASE_URL, FM_USER, FM_PASSWORD } = process.env;
+type DateRange = { from: string; to: string };
 
-async function fetchFromFileMaker(url: string) {
-  if (!FM_BASE_URL) {
-    return null;
+function normalizePath(path: string) {
+  if (!path.startsWith('/')) {
+    return `/${path}`;
   }
+  return path;
+}
 
-  const authHeader = Buffer.from(`${FM_USER}:${FM_PASSWORD}`).toString('base64');
-  const response = await fetch(url, {
+async function fetchFromFileMaker(path: string) {
+  const baseUrl = getFmBaseUrl({ required: true });
+  const { username, password } = getFileMakerCredentials();
+  const requestUrl = `${baseUrl.replace(/\/$/, '')}${normalizePath(path)}`;
+
+  const authHeader = Buffer.from(`${username}:${password}`).toString('base64');
+  const response = await fetch(requestUrl, {
     headers: {
       Authorization: `Basic ${authHeader}`
-    }
+    },
+    cache: 'no-store'
   });
 
   if (!response.ok) {
@@ -22,46 +32,32 @@ async function fetchFromFileMaker(url: string) {
   return response.json();
 }
 
-export async function fetchShifts({ from, to }: { from: string; to: string }): Promise<Shift[]> {
-  // TODO: real FileMaker integration once credentials are available
-  const queryUrl = `${FM_BASE_URL ?? ''}/shifts?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+function isConfigError(error: unknown) {
+  if (!(error instanceof Error)) return false;
+  return (
+    error.message.includes('FM_BASE_URL is not set') ||
+    error.message.includes('FM_USER and FM_PASSWORD must be set')
+  );
+}
+
+export async function fetchShifts({ from, to }: DateRange): Promise<Shift[]> {
+  if (isDemoMode) {
+    return getDemoShifts({ from, to });
+  }
+
+  const queryPath = `/shifts?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
 
   try {
-    const data = await fetchFromFileMaker(queryUrl);
+    const data = await fetchFromFileMaker(queryPath);
     if (data && Array.isArray(data.records)) {
       return data.records.map(mapFileMakerRecordToShift);
     }
+    return [];
   } catch (error) {
-    console.warn('Falling back to mocked shifts because FileMaker call failed', error);
-  }
-
-  const today = new Date();
-  const sample: Shift[] = [
-    {
-      id: 'demo-1',
-      date: from,
-      weekday: 'Mo',
-      timeRange: '08:30 bis 13:30',
-      locationName: 'Mercedes-Benz - Eichner - Ulm',
-      locationContactEmail: 'standort@example.com',
-      eventName: 'LMT Loudwig',
-      detailsPdfUrl: 'https://example.com/event.pdf',
-      staff: [
-        { name: 'Julian G', whatsappNumber: '+491701234567' },
-        { name: 'Dana M', whatsappNumber: '+4915112345678' }
-      ]
-    },
-    {
-      id: 'demo-2',
-      date: new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
-      weekday: 'Di',
-      timeRange: '12:00 bis 17:00',
-      locationName: 'Stadtfest Augsburg',
-      locationContactEmail: 'kontakt@augsburg.de',
-      eventName: 'Street Food Festival',
-      staff: [{ name: 'Alex K' }]
+    if (isConfigError(error)) {
+      throw error;
     }
-  ];
-
-  return sample.filter((shift) => shift.date >= from && shift.date <= to);
+    console.warn('FileMaker call failed. Falling back to demo shifts.', error);
+    return getDemoShifts({ from, to });
+  }
 }

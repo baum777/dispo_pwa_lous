@@ -28,11 +28,12 @@
    Nur wenn FileMaker-Integration gewünscht:
    - Klicke auf "Environment Variables"
    - Füge hinzu:
-     ```
-     FM_BASE_URL=https://your-filemaker-server.com/fmi/data/v1
-     FM_USER=your-username
-     FM_PASSWORD=your-password
-     ```
+    ```
+    FM_BASE_URL=https://your-filemaker-server.com/fmi/data/v1
+    FM_USER=your-username
+    FM_PASSWORD=your-password
+    NEXT_PUBLIC_DEMO_MODE=1  # Optional: Demo-Mode mit Mock-Daten
+    ```
    - Wähle: Production, Preview, Development
 
 5. **Deploy!**
@@ -71,6 +72,9 @@ Setze diese Environment Variables auf Vercel:
 | `FM_BASE_URL` | FileMaker Data API Base URL | `https://fm.example.com/fmi/data/v1` |
 | `FM_USER` | FileMaker Username | `webapi_user` |
 | `FM_PASSWORD` | FileMaker Password | `secure_password_123` |
+| `NEXT_PUBLIC_DEMO_MODE` | Demo-Modus (1 = Mock-Daten) | `1` |
+
+> Setze `NEXT_PUBLIC_DEMO_MODE=1`, solange kein produktiver FileMaker-Server bereitsteht. Entferne den Wert oder setze ihn auf `0`, sobald echte Daten angebunden werden.
 
 ---
 

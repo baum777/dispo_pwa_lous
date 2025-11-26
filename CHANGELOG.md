@@ -63,11 +63,14 @@ Route (app)                              Size     First Load JS
 - Mock-Daten als Fallback (läuft ohne FileMaker)
 - Environment Variables optional
 - Automatisches Fallback bei Verbindungsproblemen
+- Demo-Mode Flag (`NEXT_PUBLIC_DEMO_MODE`) aktiviert Mock-Daten bewusst
+- Zentraler Env-Helper garantiert klare Fehlermeldungen bei fehlender Konfiguration
 
 ### 📚 Documentation Updates
 - README.md mit Vercel Deployment-Sektion erweitert
 - DEPLOYMENT.md mit vollständiger Anleitung erstellt
 - .env.example als Template hinzugefügt
+- Demo-Mode & Environment Doku auf README/DEPLOYMENT/QUICKSTART ergänzt
 
 ---
 
