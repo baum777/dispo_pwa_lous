@@ -56,6 +56,7 @@ Nur wenn du echte Daten brauchst:
 FM_BASE_URL=https://your-server.com/fmi/data/v1
 FM_USER=username
 FM_PASSWORD=password
+NEXT_PUBLIC_DEMO_MODE=1  # 1 = Demo-Mode mit Mock-Daten
 ```
 
 ### Auf Vercel
@@ -63,7 +64,10 @@ FM_PASSWORD=password
 vercel env add FM_BASE_URL
 vercel env add FM_USER
 vercel env add FM_PASSWORD
+vercel env add NEXT_PUBLIC_DEMO_MODE
 ```
+
+> Tipp: Setze `NEXT_PUBLIC_DEMO_MODE=1`, solange kein echter FileMaker-Server bereitsteht. Entferne oder setze den Wert auf `0`, sobald Live-Daten verwendet werden sollen.
 
 ---
 

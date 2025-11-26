@@ -12,6 +12,7 @@ Eine Progressive Web App (PWA) für das Team von Lou's Foodtruck. Die App ermög
   - **E-Mail-Links**: Schneller Kontakt zu Standorten
   - **PDF-Details**: Event-Informationen direkt öffnen
 - Anzeige von Datum, Uhrzeit, Standort, Event und Team-Zusammensetzung
+- Demo-Mode Flag schaltet auf Mock-Daten um – perfekt für Präsentationen ohne FileMaker-Backend
 
 ### 🔧 Reparatur-Meldungen
 - Einfaches Formular zum Melden von Defekten
@@ -52,7 +53,12 @@ Eine Progressive Web App (PWA) für das Team von Lou's Foodtruck. Die App ermög
    FM_BASE_URL=https://your-filemaker-server.com/fmi/data/v1
    FM_USER=your-username
    FM_PASSWORD=your-password
+
+   # Demo-Mode aktivieren (unterdrückt FileMaker-Calls)
+   NEXT_PUBLIC_DEMO_MODE=1
    ```
+
+   Setze `NEXT_PUBLIC_DEMO_MODE=1`, um die App komplett mit Mock-Daten zu betreiben. Entferne die Variable oder setze sie auf `0`, sobald ein echter FileMaker-Server angebunden wird.
 
 4. **Entwicklungsserver starten**
    ```bash
@@ -99,6 +105,7 @@ Nur wenn FileMaker-Integration benötigt wird:
    - `FM_BASE_URL`: Deine FileMaker Server URL
    - `FM_USER`: FileMaker Username
    - `FM_PASSWORD`: FileMaker Password
+   - `NEXT_PUBLIC_DEMO_MODE`: `1` für Demo-Deployments, `0` oder leer für Produktion
 4. Wähle alle Environments (Production, Preview, Development)
 
 **Hinweis**: Ohne diese Variablen läuft die App mit Mock-Daten (perfekt für Demos & Tests!)
