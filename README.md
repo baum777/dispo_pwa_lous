@@ -73,9 +73,38 @@ npm run build
 npm start
 ```
 
-### Deployment
-Die App kann auf verschiedenen Plattformen deployed werden:
-- **Vercel** (empfohlen für Next.js)
+### Deployment auf Vercel (empfohlen)
+
+#### Schnell-Deploy via CLI
+```bash
+# Vercel CLI installieren (einmalig)
+npm i -g vercel
+
+# Projekt deployen
+vercel
+```
+
+#### Deploy via GitHub
+1. Push das Repository zu GitHub
+2. Gehe zu [vercel.com](https://vercel.com)
+3. Klicke auf "Add New Project"
+4. Importiere dein GitHub Repository
+5. Vercel erkennt automatisch Next.js und konfiguriert alles
+
+#### Umgebungsvariablen auf Vercel setzen (optional)
+Nur wenn FileMaker-Integration benötigt wird:
+1. Gehe zu deinem Projekt auf Vercel
+2. Settings → Environment Variables
+3. Füge hinzu:
+   - `FM_BASE_URL`: Deine FileMaker Server URL
+   - `FM_USER`: FileMaker Username
+   - `FM_PASSWORD`: FileMaker Password
+4. Wähle alle Environments (Production, Preview, Development)
+
+**Hinweis**: Ohne diese Variablen läuft die App mit Mock-Daten (perfekt für Demos & Tests!)
+
+### Alternative Deployment-Optionen
+Die App kann auch auf anderen Plattformen deployed werden:
 - **Netlify**
 - **Docker Container**
 - Jeder Node.js-fähige Hosting-Anbieter
